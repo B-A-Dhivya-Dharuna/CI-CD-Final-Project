@@ -1,0 +1,42 @@
+name: CI Pipeline for ML Project
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-test-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout your repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # ✅ Task 2: Linting step
+      - name: Run Linter (flake8)
+        run: |
+          pip install flake8
+          echo "Running flake8 for code style check..."
+          flake8 app.py --max-line-length=120
+
+      # ✅ Task 3: Test step
+      # You can either run pytest or execute app.py directly
+      - name: Run Tests / Execute ML pipeline
+        run: |
+          echo "Running ML pipeline..."
+          python app.py
