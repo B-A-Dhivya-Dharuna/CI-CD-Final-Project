@@ -1,5 +1,3 @@
-# ml_pipeline.py
-
 import pandas as pd
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
@@ -7,6 +5,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report
 import joblib
 import os
+
 
 # --- Configuration/Constants ---
 TEST_SIZE = 0.3
@@ -16,12 +15,13 @@ TEST_DATA_FILE = 'data/iris_test.csv'
 MODEL_DIR = 'models'
 MODEL_FILE = f'{MODEL_DIR}/iris_knn_model.pkl'
 
+
 # Create directories if they don't exist
 os.makedirs('data', exist_ok=True)
 os.makedirs(MODEL_DIR, exist_ok=True)
 
-# Part 1: Download/Split and Save Datasets
 
+# Part 1: Download/Split and Save Datasets
 def download_and_split_data():
     """Loads the Iris dataset, splits it, and saves the train/test sets to CSV."""
     print("Step 1: Downloading and splitting Iris dataset...")
@@ -57,11 +57,12 @@ def download_and_split_data():
     print(f"✅ Training data saved to: {TRAIN_DATA_FILE} (Rows: {len(train_df)})")
     print(f"✅ Testing data saved to: {TEST_DATA_FILE} (Rows: {len(test_df)})")
 
+
 # Execute this step
 download_and_split_data()
 
-# Part 2: Train, Evaluate, and Save Model
 
+# Part 2: Train, Evaluate, and Save Model
 def train_and_evaluate_model():
     """Loads the split data from CSVs, trains a KNN model, and evaluates it."""
     print("\nStep 2: Training and evaluating ML Model...")
@@ -80,7 +81,7 @@ def train_and_evaluate_model():
     X_test = test_df.drop('species', axis=1)
     y_test = test_df['species']
 
-    # **Build and Train the ML Model (K-Nearest Neighbors)**
+    # Build and Train the ML Model (K-Nearest Neighbors)
     model = KNeighborsClassifier(n_neighbors=5)
     model.fit(X_train, y_train)
 
@@ -94,8 +95,10 @@ def train_and_evaluate_model():
     joblib.dump(model, MODEL_FILE)
     print(f"✅ Trained model saved as: {MODEL_FILE}")
 
+
 # Execute this step
 train_and_evaluate_model()
+
 
 # Final output to run the full script
 if __name__ == '__main__':
